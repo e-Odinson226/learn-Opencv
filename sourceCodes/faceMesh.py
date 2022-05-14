@@ -10,10 +10,9 @@ mpFaceMesh = mp.solutions.face_mesh
 faceMesh = mpFaceMesh.FaceMesh()
 
 mpDrawingUtils = mp.solutions.drawing_utils
-mpDrawingSpec = mpDrawingUtils.DrawingSpec( (0, 128, 0), thickness = 1, circle_radius = 1)
+mpDrawingSpec = mpDrawingUtils.DrawingSpec((0, 0, 230) ,thickness = 1, circle_radius = 1)
 
 mpDrawingStyles = mp.solutions.drawing_styles
-mpDrawingStyles = mpDrawingStyles.get_default_face_mesh_tesselation_style()
 
 pTime = 0
 while True:
@@ -32,6 +31,23 @@ while True:
                 landmark_drawing_spec = mpDrawingSpec,
                 connection_drawing_spec = mpDrawingSpec
                 )
+            
+            mpDrawingUtils.draw_landmarks(
+                frame,
+                faceLandmark,
+                connections = mpFaceMesh.FACEMESH_FACE_OVAL,
+                landmark_drawing_spec = mpDrawingSpec,
+                connection_drawing_spec = mpDrawingSpec
+                )
+            
+            #mpDrawingUtils.draw_landmarks(
+            #    frame,
+            #    faceLandmark,
+            #    connections = mpFaceMesh.FACEMESH_IRISES,
+            #    #landmark_drawing_spec = mpDrawingSpec,
+            #    connection_drawing_spec = 
+            #    mpDrawingStyles.get_default_face_mesh_iris_connections_style()
+            #    )
     
     #else:
     #    pass
