@@ -1,5 +1,6 @@
 import cv2
 from manager import WindowManager, CaptureManager
+import filters
 
 
 class Cameo(object):
@@ -15,7 +16,7 @@ class Cameo(object):
             self._captureManager.enterFrame()
             frame = self._captureManager.frame
             if frame is not None:
-                pass
+                filters.filter(frame, frame)
             self._captureManager.exitFrame()
             self._windowManager.processEvents()
 
