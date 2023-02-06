@@ -9,14 +9,19 @@ class Cameo(object):
         self._captureManager = CaptureManager(
             cv2.VideoCapture(0), self._windowManager, True
         )
+        self._embossedFilter = filters.EmbossFilter()
 
     def run(self):
         self._windowManager.createWindow()
         while self._windowManager.isWindowCreated:
             self._captureManager.enterFrame()
             frame = self._captureManager.frame
+
             if frame is not None:
-                filters.filter(frame, frame)
+
+                filters.strokeEdge(frame, frame)
+                self._embossedFilter.apply(frame, frame)
+
             self._captureManager.exitFrame()
             self._windowManager.processEvents()
 
