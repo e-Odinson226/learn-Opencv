@@ -4,9 +4,16 @@ import time
 
 
 class CaptureManager(object):
-    def __init__(self, capture, previewWindowManager=None, shouldMirrorPreview=False):
+    def __init__(
+        self,
+        capture,
+        previewWindowManager=None,
+        shouldMirrorPreview=False,
+        shouldConvertBitDepth10to8=True,
+    ):
         self.previewWindowManager = previewWindowManager
         self.shouldMirrorPreview = shouldMirrorPreview
+        self.shouldConvertBitDepth10to8 = shouldConvertBitDepth10to8
         self._capture = capture
         self._channel = 0
         self._enteredFrame = False
@@ -33,6 +40,12 @@ class CaptureManager(object):
     def frame(self):
         if self._enteredFrame and self._frame is None:
             _, self._frame = self._capture.retrieve(self._frame, self._channel)
+            if (
+                self.shouldConvertBitDepth10to8
+                and self._frame is not None
+                and self._frame.dtype == np.uint16
+            ):
+                self._frame = (self._frame >> 2).astype(np.uint8)
         return self._frame
 
     @property
